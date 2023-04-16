@@ -1,4 +1,4 @@
-from flask import Flask, url_for
+from flask import Flask, url_for, request
 
 app = Flask(__name__)
 
@@ -11,6 +11,7 @@ def greet_mission():
 @app.route('/index')
 def index():
     return "<p><b>И на Марсе будут яблони цвести!</b></p>"
+
 
 promotion_list = '''Человечество вырастает из детства.
 Человечеству мала одна планета.
@@ -70,10 +71,36 @@ def bootstrap():
                     <div class="alert alert-dark" role="alert">
                       <b>Присоединяйся!</b>
                     </div>
-    
-    
                   </body>
                 </html>'''
+
+
+@app.route('/form_sample', methods=['POST', 'GET'])
+def form_sample():
+    if request.method == 'GET':
+        with open('static/html/form_sample.html', encoding='utf8') as f:
+            return f.read()
+
+    elif request.method == 'POST':
+        print(request.form['surname'])
+        print(request.form['name'])
+        print(request.form['email'])
+        print(request.form['class'])
+        prophecys = []
+        prophecys.append('Инженер-исследователь') if request.form.get('accept1') else ''
+        prophecys.append('Инженер-строитель') if request.form.get('accept2') else ''
+        prophecys.append('Пилот') if request.form.get('accept3') else ''
+        prophecys.append('Метеоролог') if request.form.get('accept4') else ''
+        prophecys.append('Инженер по жизнеобеспечению') if request.form.get('accept5') else ''
+        prophecys.append('Инженер по радиационной защите') if request.form.get('accept6') else ''
+        prophecys.append('Врач') if request.form.get('accept7') else ''
+        prophecys.append('Экзобиолог') if request.form.get('accept8') else ''
+        print('Профессии:', ', '.join(list(filter(lambda x: x != '', prophecys))))
+        print(request.form["sex"])
+        print(request.form["about"])
+        print(request.form["file"])
+        print('Готов остаться' if request.form.get("acceptRules") else 'Не готов остаться')
+        return "Форма отправлена"
 
 
 if __name__ == '__main__':
