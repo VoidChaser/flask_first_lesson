@@ -37,7 +37,7 @@ def mars_page():
                 </body>'''
 
 
-@app.route('/bootstrap_sample')
+@app.route('/promotion_image')
 def bootstrap():
     return f'''<!doctype html>
                 <html lang="en">
